@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/ui-darkness/jquery-ui.min.css" integrity="sha512-p1d6H09ljWDOV2QwnG9MqYe2VKz/EOw0DJ6PRsl5SvIWY0Pxt0bnwl3+57OrQDMWQyyJ+XnsEq4Hlhl+GdoVKQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/ui-darkness/jquery-ui.min.css" integrity="sha512-p1d6H09ljWDOV2QwnG9MqYe2VKz/EOw0DJ6PRsl5SvIWY0Pxt0bnwl3+57OrQDMWQyyJ+XnsEq4Hlhl+GdoVKQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" />
+     <meta name="description" content="Lazy VR Event organisers go brrrrrr">
     <title>Slot-o-matic</title>
-    <meta name="description" content="Lazy VR Event organisers go brrrrrr">
     <style>
     body
     {
@@ -95,40 +95,73 @@
     {
         color: #fff;
     }
+
+    #time-code-list
+    {
+        font-family: monospace;
+    }
     </style>
     <script>
     $(function()
     {
         $(".datetimepicker").datetimepicker(
         {
-            dateFormat: "dd-mm-yy",
-            timeFormat: "HH:mm:ss",
-            showSecond: false,
-            controlType: "select",
-            oneLine: true,
-            theme: 'dark',
-            minDate: 0,
-            startDate: new Date()
+            dateFormat: "dd-mm-yy"
+            , timeFormat: "HH:mm:ss"
+            , showSecond: false
+            , controlType: "select"
+            , oneLine: true
+            , theme: 'dark'
+            , minDate: 0
+            , startDate: new Date()
 
         });
     });
- 
+    </script>
+    <script>
     function generateTimeCodes()
     {
         var startingTime = new Date($("#starting-time-code").val());
+        if(isNaN(startingTime))
+        {
+            return;
+        }
         var timeIncrement = parseInt($("#time-increment").val());
         var numberOfTimeCodes = parseInt($("#number-of-time-codes").val());
         var timeCodeList = $("#time-code-list");
+        var outputStyle = $("#myDropdown").val();
+        var isFullChecked = $("#myCheckbox").is(":checked");
+        var isDoorsChecked = $("#myCheckbox2").is(":checked");
 
-        console.log(startingTime);
+        var outputPrepend = "";
+        var outputAppend = "";
+
+
 
         var outputHTML = "";
+
+        if(isFullChecked)
+        {
+            outputHTML += "<li>Event date: &lt;t:" + (startingTime.getTime() / 1000) + ":f&gt;</li>";
+        }
+        if(isDoorsChecked)
+        {
+            outputHTML += "<li>Doors open at: &lt;t:" + ((startingTime.getTime() / 1000) - 900) + ":t&gt;</li>";
+        }
 
         for(var i = 0; i < numberOfTimeCodes; i++)
         {
             var newTime = new Date(startingTime.getTime() + (i * timeIncrement * 60 * 1000));
             var newTimeCode = Math.round(newTime.getTime() / 1000);
-            outputHTML += "<li>&lt;t:" + newTimeCode + ":t&gt;</li>";
+            if(outputStyle == 'prepend-slot')
+            {
+                outputPrepend = (i + 1) + ": ";
+            }
+            if(outputStyle == 'append-slot')
+            {
+                outputAppend = " " + (i + 1);
+            }
+            outputHTML += "<li>" + outputPrepend + "&lt;t:" + newTimeCode + ":t&gt;" + outputAppend + "</li>";
         }
 
         timeCodeList.fadeOut("fast", function()
@@ -167,18 +200,28 @@
 
 <body>
     <h1>Slot-o-matic</h1>
-    <form><label for="starting-time-code">Starting Time (Local Time)</label>
-        <input type="text" id="starting-time-code" placeholder="Click here for a calendar" name="starting-time-code" required class="datetimepicker">
-        <label for="time-increment">Time Increment</label>
+    <form><label for="starting-time-code">Event start time</label>
+        <input type="text" id="starting-time-code" name="starting-time-code" required placeholder="Click to open calendar" autocomplete="off" class="datetimepicker">
+        <label for="time-increment">Set length</label>
         <select id="time-increment" name="time-increment">
             <option value="30">30 minutes</option>
-            <option value="60">1 hour</option>
+            <option value="60" selected>1 hour</option>
             <option value="90">90 minutes</option>
             <option value="120">2 hours</option>
         </select>
         <label for="number-of-time-codes">Number of Time Codes to Generate</label>
-        <input type="number" id="number-of-time-codes" name="number-of-time-codes" required>
-        <input type="button" value="Generate Time Codes" onclick="generateTimeCodes(); return false;">
+        <input type="number" id="number-of-time-codes" name="number-of-time-codes" value="4" required>
+        <label>
+            <input type="checkbox" id="myCheckbox" name="myCheckbox" /> Include event start time/date?</label>
+        <label>
+            <input type="checkbox" id="myCheckbox2" name="myCheckbox2" /> Include open doors time? (-15 Minutes) </label>
+        <label for="selecta">Slot number formatting<label>
+                <select name="selecta" id="myDropdown">
+                    <option value="no-slot">No slot numbers</option>
+                    <option value="prepend-slot">Prepend slot numbers</option>
+                    <option value="append-slot">Append slot numbers</option>
+                </select>
+                <input type="button" value="Generate Time Codes" onclick="generateTimeCodes(); return false;">
     </form>
     <ul id="time-code-list"></ul>
     <button id="copy-to-clipboard-button" style="display: none;">Copy to Clipboard</button>
