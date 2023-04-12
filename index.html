@@ -1,0 +1,189 @@
+<html>
+
+<head>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js" integrity="sha512-57oZ/vW8ANMjR/KQ6Be9v/+/h6bq9/l3f0Oc7vn6qMqyhvPd1cvKBRWWpzu0QoneImqr2SkmO4MSqU+RpHom3Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/ui-darkness/jquery-ui.min.css" integrity="sha512-p1d6H09ljWDOV2QwnG9MqYe2VKz/EOw0DJ6PRsl5SvIWY0Pxt0bnwl3+57OrQDMWQyyJ+XnsEq4Hlhl+GdoVKQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/ui-darkness/jquery-ui.min.css" integrity="sha512-p1d6H09ljWDOV2QwnG9MqYe2VKz/EOw0DJ6PRsl5SvIWY0Pxt0bnwl3+57OrQDMWQyyJ+XnsEq4Hlhl+GdoVKQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" />
+    <title>Slot-o-matic</title>
+    <style>
+    body
+    {
+        background-color: #2f3136;
+        color: #fff;
+        font-family: "Open Sans", Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        margin: 0;
+        padding: 0;
+        margin-left: 40px;
+        margin-right: 40px;
+        margin-top: 20px;
+    }
+
+    h1
+    {
+        font-size: 48px;
+        margin: 40px 0;
+    }
+
+    label
+    {
+        display: block;
+        margin-bottom: 8px;
+        margin-top: 8px;
+    }
+
+    input[type="number"],
+    input[type="text"],
+    select
+    {
+        background-color: #40444b;
+        border: none;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        color: #fff;
+        font-size: 16px;
+        height: 40px;
+        padding: 8px;
+        width: 100%;
+    }
+
+    #generate-btn,
+    input[type="button"],
+    #copy-to-clipboard-button
+    {
+        background-color: #7289da;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        cursor: pointer;
+        font-size: 16px;
+        height: 40px;
+        margin-top: 16px;
+        width: 100%;
+    }
+
+    #copy-to-clipboard-button:disabled
+    {
+        background-color: #5b6b8f;
+    }
+
+    ul
+    {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    li
+    {
+        padding: 10px;
+        margin-bottom: 8px;
+    }
+
+    footer
+    {
+        margin-top: 32px;
+        text-align: center;
+    }
+
+    footer a
+    {
+        color: #fff;
+    }
+    </style>
+    <script>
+    $(function()
+    {
+        $(".datetimepicker").datetimepicker(
+        {
+            dateFormat: "dd-mm-yy"
+            timeFormat: "HH:mm:ss",
+            showSecond: false,
+            controlType: "select",
+            oneLine: true,
+            theme: 'dark',
+            minDate: 0,
+            startDate: new Date()
+
+        });
+    });
+ 
+    function generateTimeCodes()
+    {
+        var startingTime = new Date($("#starting-time-code").val());
+        var timeIncrement = parseInt($("#time-increment").val());
+        var numberOfTimeCodes = parseInt($("#number-of-time-codes").val());
+        var timeCodeList = $("#time-code-list");
+
+        console.log(startingTime);
+
+        var outputHTML = "";
+
+        for(var i = 0; i < numberOfTimeCodes; i++)
+        {
+            var newTime = new Date(startingTime.getTime() + (i * timeIncrement * 60 * 1000));
+            var newTimeCode = Math.round(newTime.getTime() / 1000);
+            outputHTML += "<li>&lt;t:" + newTimeCode + ":t&gt;</li>";
+        }
+
+        timeCodeList.fadeOut("fast", function()
+        {
+            timeCodeList.html(outputHTML).fadeIn("fast");
+        });
+
+        $("#copy-to-clipboard-button").show();
+
+        setTimeout(function()
+        {
+            $("#copy-to-clipboard-button").text("Copy to Clipboard").prop("disabled", false);
+        }, 3000);
+    }
+
+
+    $(document).ready(function()
+    {
+        $("#copy-to-clipboard-button").click(function()
+        {
+            var outputHTML = "";
+            $("#time-code-list li").each(function()
+            {
+                outputHTML += $(this).text() + "\n";
+            });
+            var tempInput = $("<textarea>");
+            $("body").append(tempInput);
+            tempInput.val(outputHTML).select();
+            document.execCommand("copy");
+            tempInput.remove();
+            $("#copy-to-clipboard-button").text("Copied!").prop("disabled", true);
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <h1>Slot-o-matic</h1>
+    <form><label for="starting-time-code">Starting Time Code (hammertime)</label>
+        <input type="text" id="starting-time-code" name="starting-time-code" required class="datetimepicker">
+        <label for="time-increment">Time Increment</label>
+        <select id="time-increment" name="time-increment">
+            <option value="30">30 minutes</option>
+            <option value="60">1 hour</option>
+            <option value="90">90 minutes</option>
+            <option value="120">2 hours</option>
+        </select>
+        <label for="number-of-time-codes">Number of Time Codes to Generate</label>
+        <input type="number" id="number-of-time-codes" name="number-of-time-codes" required>
+        <input type="button" value="Generate Time Codes" onclick="generateTimeCodes(); return false;">
+    </form>
+    <ul id="time-code-list"></ul>
+    <button id="copy-to-clipboard-button" style="display: none;">Copy to Clipboard</button>
+    <footer>
+      
+    </footer>
+</body>
+
+</html>
