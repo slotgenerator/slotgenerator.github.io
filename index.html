@@ -112,6 +112,61 @@
     }
     </style>
     <script>
+	
+	var JP = false;
+	
+	const EN_words = [
+	  'Slot-o-matic',//0
+	  'Event start time',//1
+	  'Click to open calendar',//2 PLACEHOLDER
+	  'Set length',//3
+	  '15 minutes',//4
+	  '30 minutes',//5
+	  '45 minutes',//6
+	  '1 hour',//7
+	  '90 minutes',//8
+	  '2 hours',//9
+	  'Number of Time Codes to Generate',//10
+	  'Include event start time/date?',//11
+	  'Include open doors time? (-15 Minutes)',//12
+	  'Double spaced timecodes?',//13
+	  'Slot number formatting',//14
+	  'No slot numbers',//15
+	  'Prepend slot numbers',//16
+	  'Append slot numbers',//17
+	  'Append slot numbers with hyphen',//18
+	  'Generate Time Codes',//19
+	  'Copy to Clipboard',//20
+	  'Event date',//21
+	  'Doors open at'//22
+	];
+	
+	const JP_words = [
+	  'スロット・オートマチック', //0
+	  'イベント開始時刻', //1
+	  'カレンダーを開くにはクリックしてください', //2 プレースホルダー
+	  'スロットの時間設定', //3
+	  '15分', //4
+	  '30分', //5
+	  '45分', //6
+	  '1時間', //7
+	  '90分', //8
+	  '2時間', //9
+	  '生成する時間スロットの数', //10
+	  'イベント開始時間/日付を含めますか？', //11
+	  '開場時間を含めますか？ (-15分)', //12
+	  '生成する時間スロットの改行を倍にする?', //13
+	  'スロット番号の書式設定', //14
+	  'スロット番号なし', //15
+	  'スロット番号を先頭に付ける', //16
+	  'スロット番号を末尾に付ける', //17
+	  'スロット番号をハイフン付きで末尾に付ける', //18
+	  '時間スロットを生成する', //19
+	  'クリップボードにコピー', //20
+	  'イベント日付', //21
+	  '開場時間' //22
+	];
+	
     $(function()
     {
         $(".datetimepicker").datetimepicker(
@@ -126,6 +181,49 @@
             , startDate: new Date()
 
         });
+		$("#usflag").hide();
+		
+		$("#usflag").click(function(e){
+			$("*[en]").each(function(){
+			var part = $(this).attr("en");
+			
+			if(part == 2){
+				$(this).attr("placeholder", EN_words[part])
+			}else if(part == 11 || part == 12 || part == 13){
+				$(this).html(EN_words[part]);
+			}else if(part == 19){
+				$(this).attr("value", EN_words[part]);
+			}else{
+				$(this).text(EN_words[part]);
+			}
+			$("#usflag").hide();
+			$("#jpflag").show();
+			JP = false;
+			
+		});
+		});
+		
+		$("#jpflag").click(function(e){
+			$("*[en]").each(function(){
+			var part = $(this).attr("en");
+			
+			if(part == 2){
+				$(this).attr("placeholder", JP_words[part])
+			}else if(part == 11 || part == 12 || part == 13){
+				$(this).html(JP_words[part]);
+			}else if(part == 19){
+				$(this).attr("value", JP_words[part]);
+			}else{
+				$(this).text(JP_words[part]);
+			}
+			$("#usflag").show();
+			$("#jpflag").hide();
+			JP = true;
+		});
+		});
+		
+	
+		
     });
     </script>
     <script>
@@ -151,11 +249,19 @@
 
         if(isFullChecked)
         {
+			if(!JP){
             outputHTML += "<li>Event date: &lt;t:" + (startingTime.getTime() / 1000) + ":f&gt;</li>";
+			}else{
+			 outputHTML += "<li>イベント日付: &lt;t:" + (startingTime.getTime() / 1000) + ":f&gt;</li>";
+			}
         }
         if(isDoorsChecked)
         {
-            outputHTML += "<li>Doors open at: &lt;t:" + ((startingTime.getTime() / 1000) - 900) + ":t&gt;</li>";
+			if(!JP){
+				outputHTML += "<li>Doors open at: &lt;t:" + ((startingTime.getTime() / 1000) - 900) + ":t&gt;</li>";
+			}else{
+				outputHTML += "<li>開場時間: &lt;t:" + ((startingTime.getTime() / 1000) - 900) + ":t&gt;</li>";
+			}
         }
 
         for(var i = 0; i < numberOfTimeCodes; i++)
@@ -186,7 +292,12 @@
 
         setTimeout(function()
         {
-            $("#copy-to-clipboard-button").text("Copy to Clipboard").prop("disabled", false);
+			if(!JP){
+				$("#copy-to-clipboard-button").text("Copy to Clipboard").prop("disabled", false);
+			}else{
+			    $("#copy-to-clipboard-button").text("クリップボードにコピー").prop("disabled", false);
+			}
+
         }, 3000);
     }
 
@@ -216,39 +327,56 @@
 </head>
 
 <body>
-    <h1>Slot-o-matic</h1>
-    <form><label for="starting-time-code">Event start time</label>
-        <input type="text" id="starting-time-code" name="starting-time-code" required placeholder="Click to open calendar" autocomplete="off" class="datetimepicker">
-        <label for="time-increment">Set length</label>
+
+  
+  <h1><span style="padding-right:45px" en="0">Slot-o-matic</span>  <span style="float:right">      <img id="jpflag"
+  src="https://flagcdn.com/48x36/jp.png"
+  srcset="https://flagcdn.com/96x72/jp.png 2x,
+    https://flagcdn.com/144x108/jp.png 3x"
+  width="48"
+  height="36"
+  alt="Japan">
+  
+  <img id="usflag"
+  src="https://flagcdn.com/48x36/us.png"
+  srcset="https://flagcdn.com/96x72/us.png 2x,
+    https://flagcdn.com/144x108/us.png 3x"
+  width="48"
+  height="36"
+  alt="United States"></span></h1>
+
+    <form><label en="1" for="starting-time-code">Event start time</label>
+        <input en="2" type="text" id="starting-time-code" name="starting-time-code" required placeholder="Click to open calendar" autocomplete="off" class="datetimepicker">
+        <label en="3" for="time-increment">Set length</label>
         <select id="time-increment" name="time-increment">
-			<option value="15">15 minutes</option>
-            <option value="30">30 minutes</option>
-			<option value="45">45 minutes</option>
-            <option value="60" selected>1 hour</option>
-            <option value="90">90 minutes</option>
-            <option value="120">2 hours</option>
+			<option en="4" value="15">15 minutes</option>
+            <option en="5" value="30">30 minutes</option>
+			<option en="6" value="45">45 minutes</option>
+            <option en="7" value="60" selected>1 hour</option>
+            <option en="8" value="90">90 minutes</option>
+            <option en="9" value="120">2 hours</option>
         </select>
-        <label for="number-of-time-codes">Number of Time Codes to Generate</label>
+        <label en="10" for="number-of-time-codes">Number of Time Codes to Generate</label>
         <input type="number" id="number-of-time-codes" name="number-of-time-codes" value="4" required>
         <label>
-            <input type="checkbox" id="myCheckbox" name="myCheckbox" /> Include event start time/date?</label>
+            <input type="checkbox" id="myCheckbox" name="myCheckbox" /> <span en="11">Include event start time/date?</span></label>
         <label>
-            <input type="checkbox" id="myCheckbox2" name="myCheckbox2" /> Include open doors time? (-15 Minutes) </label>
+            <input type="checkbox" id="myCheckbox2" name="myCheckbox2" /> <span en="12">Include open doors time? (-15 Minutes)</span></label>
 			 <label>
-            <input type="checkbox" id="myCheckbox3" name="myCheckbox3" /> Double spaced timecodes? 🐌 </label>
-        <label for="selecta">Slot number formatting<label>
+            <input type="checkbox" id="myCheckbox3" name="myCheckbox3" /> <span en="13">Double spaced timecodes?</span></label>
+        <label en="14" for="selecta">Slot number formatting</label>
                 <select name="selecta" id="myDropdown">
-                    <option value="no-slot">No slot numbers</option>
-                    <option value="prepend-slot">Prepend slot numbers</option>
-                    <option value="append-slot">Append slot numbers</option>
-					<option value="append-slot-ikra">Append slot numbers with hyphen 🐌</option>
+                    <option en="15" value="no-slot">No slot numbers</option>
+                    <option en="16" value="prepend-slot">Prepend slot numbers</option>
+                    <option en="17" value="append-slot">Append slot numbers</option>
+					<option en="18" value="append-slot-ikra">Append slot numbers with hyphen</option>
                 </select>
-                <input type="button" value="Generate Time Codes" onclick="generateTimeCodes(); return false;">
+                <input en="19" type="button" value="Generate Time Codes" onclick="generateTimeCodes(); return false;">
     </form>
     <ul id="time-code-list"></ul>
-    <button id="copy-to-clipboard-button" style="display: none;">Copy to Clipboard</button>
+    <button en="20" id="copy-to-clipboard-button" style="display: none;">Copy to Clipboard</button>
     <footer>
-        Made by <a href="http://chat.openai.com">ChatGPT</a> and <a href="http://twitter.com/vr_oku">vroku</a>.
+        Made by <a href="http://chat.openai.com">ChatGPT</a> and <a href="http://twitter.com/vr_oku">vroku</a>, translation help by <a href="https://twitter.com/kohada_tw">こはだ Kohada</a>.
     </footer>
 </body>
 
