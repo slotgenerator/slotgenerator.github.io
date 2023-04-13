@@ -171,6 +171,10 @@
             {
                 outputAppend = " " + (i + 1);
             }
+			if(outputStyle == 'append-slot-ikra')
+            {
+                outputAppend = " - " + (i + 1);
+            }
             outputHTML += "<li>" + outputPrepend + "&lt;t:" + newTimeCode + ":t&gt;" + outputAppend + "</li>";
         }
 
@@ -232,6 +236,7 @@
                     <option value="no-slot">No slot numbers</option>
                     <option value="prepend-slot">Prepend slot numbers</option>
                     <option value="append-slot">Append slot numbers</option>
+					<option value="append-slot-ikra">Append slot numbers with hyphen 🐌</option>
                 </select>
                 <input type="button" value="Generate Time Codes" onclick="generateTimeCodes(); return false;">
     </form>
