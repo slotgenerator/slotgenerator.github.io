@@ -1,0 +1,308 @@
+<html>
+
+<head>
+	<!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BHB7W12355"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-BHB7W12355');
+    </script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js" integrity="sha512-57oZ/vW8ANMjR/KQ6Be9v/+/h6bq9/l3f0Oc7vn6qMqyhvPd1cvKBRWWpzu0QoneImqr2SkmO4MSqU+RpHom3Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/ui-darkness/jquery-ui.min.css" integrity="sha512-p1d6H09ljWDOV2QwnG9MqYe2VKz/EOw0DJ6PRsl5SvIWY0Pxt0bnwl3+57OrQDMWQyyJ+XnsEq4Hlhl+GdoVKQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/ui-darkness/jquery-ui.min.css" integrity="sha512-p1d6H09ljWDOV2QwnG9MqYe2VKz/EOw0DJ6PRsl5SvIWY0Pxt0bnwl3+57OrQDMWQyyJ+XnsEq4Hlhl+GdoVKQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" />
+    <meta name="description" content="Lazy VR Event organisers go brrrrrr">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+    <title>Slot-o-matic</title>
+    <style>
+    body
+    {
+        background-color: #2f3136;
+        color: #fff;
+        font-family: "Open Sans", Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        margin: 0;
+        padding: 0;
+        margin-left: 40px;
+        margin-right: 40px;
+        margin-top: 20px;
+    }
+
+    h1
+    {
+        font-size: 48px;
+        margin: 40px 0;
+    }
+
+    label
+    {
+        display: block;
+        margin-bottom: 8px;
+        margin-top: 8px;
+    }
+
+    input[type="number"],
+    input[type="text"],
+    select
+    {
+        background-color: #40444b;
+        border: none;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        color: #fff;
+        font-size: 16px;
+        height: 40px;
+        padding: 8px;
+        width: 100%;
+    }
+
+    #generate-btn,
+    input[type="button"],
+    #copy-to-clipboard-button
+    {
+        background-color: #7289da;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        cursor: pointer;
+        font-size: 16px;
+        height: 40px;
+        margin-top: 16px;
+        width: 100%;
+    }
+
+    #copy-to-clipboard-button:disabled
+    {
+        background-color: #5b6b8f;
+    }
+
+    ul
+    {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    li
+    {
+        padding: 10px;
+        margin-bottom: 8px;
+    }
+
+    footer
+    {
+        margin-top: 32px;
+        text-align: center;
+    }
+
+    footer a
+    {
+        color: #fff;
+    }
+
+    #time-code-list,#link-list
+    {
+        font-family: monospace;
+		padding-top: 15px;
+    }
+    </style>
+    <script>
+	
+    $(function()
+    {
+       
+		var vrdjs = {
+		  "DUCKK": "duckk",
+		  "Akii": "akii",
+		  "Aleksis": "saucey",
+		  "Ambrloaf": "ambrloaf",
+		  "Auxee": "auxee",
+		  "ayir": "medii",
+		  "Berri": "itsberrii",
+		  "Bobby J": "djbobbyj",
+		  "catmelt": "catm3lt",
+		  "cleo": "nickthenpc",
+		  "CowsGoMooooooooouwu": "cowsgomooooooooo",
+		  "Crossbone101": "crossbone101",
+		  "Deff_787": "50936794",
+		  "Ðev": "devscorruptedmind",
+		  "DJ Cosmo Raver": "cosmoraver",
+		  "DJ Dragons": "jonathan704023",
+		  "DJ Drekt": "djdrekt",
+		  "DJ Murdokes": "djmurdokes",
+		  "DJ Pears": "djpears",
+		  "DPREST": "dprest",
+		  "Electro": "electrovrc",
+		  "English Lad": "djenglishlad",
+		  "Feathermo0n": "feathermoon",
+		  "Ferret": "djwokedoggo",
+		  "FrickedUpVR": "frickedup",
+		  "geoid": "geoid",
+		  "Green elixr": "greenelixr",
+		  "Gyluss": "gyluss",
+		  "Halo": "halo",
+		  "Hypno dog": "medii",
+		  "Infinitysqaured": "infsq",
+		  "JDJ98": "jdj98",
+		  "JNue": "jnue",
+		  "KenoTatsu": "kenotatsu",
+		  "KitsuneMixes": "mixify",
+		  "Kizzle": "kizzle",
+		  "Last Breaths": "deagle",
+		  "LostMelody": "lostmelody",
+		  "lunamoonlight": "memimoonlight",
+		  "Lyricals": "lyricals",
+		  "Madlen": "madlen",
+		  "Max Tach": "maxtach",
+		  "Mayor of Texas": "mayoroftexastest",
+		  "Mikpwn": "mikpwn",
+		  "Misshu": "kreyadian",
+		  "MrDubbyWubby": "dubbywubby",
+		  "naku": "naku",
+		  "NickTheNPC": "nickthenpc",
+		  "NOXER": "tsurugi",
+		  "NullCase": "nullcase",
+		  "PizzaPrincess": "pizzaprincess",
+		  "Positivity": "po3it1vity",
+		  "Propaganda": "propaganda",
+		  "Pure Affection": "pureaffection",
+		  "Ritual": "ritual",
+		  "scarlett silver": "scarlettsilver",
+		  "sebbrah": "sebbrah",
+		  "smiles4u17": "subsdance",
+		  "sojujason": "sojujason",
+		  "Speculations": "speculations",
+		  "Stayawhile": "stayawhile",
+		  "TEHNINJABEAR": "tehninjabear",
+		  "UnrealJourneys": "ritual",
+		  "Vaizor": "vaizor",
+		  "VioletLavy": "sopra",
+		  "vroku": "vroku",
+		  "Wert": "theycallmewert",
+		  "Westeeez": "westeeez",
+		  "Will": "wabee",
+		  "Wo1fie": "wo1fie",
+		  "xia": "xia",
+		  "Yabasugi": "yabasugi",
+		  "Yama": "yama",
+		  "Yumyum Catbuns": "catbuns",
+		  "zeroexcuse": "zeroexcuse",
+		  "zerooneonefour": "0114",
+		  "ziggy": "ziggy",
+		  "Zenji": "zenji",
+		  "medlish": "medlish",
+		  "highball": "mrhighball",
+		  "gamakii": "gamakii",
+		  "serenitydnb": "serenitydnb",
+		  "fokie": "fokie",
+		  "kohada": "kohadachan",
+		  "reframinator": "reframinator",
+		  "Atkom": "atkom",
+		  "mahne": "mahne"
+		  
+		  
+		}
+		
+	
+        $("#my-button").click(function(event) {
+          event.preventDefault();
+          var username = $("#username").val().toLowerCase();
+          console.log("Username entered: " + username); 
+		  var entry = vrdjs[Object.keys(vrdjs).find(key => key.toLowerCase() === username)];
+		  if(typeof entry !== 'undefined'){
+			spitOutLinks(entry, false);
+		  }else{
+			spitOutLinks(username, true);
+		  }
+		  
+        });
+  
+    });
+	
+	function spitOutLinks(theDJ, warnNotInDB){
+		var outputHTML = "";
+        var timeCodeList = $("#link-list");
+
+        
+       
+
+      //  for(var i = 0; i < 3; i++)
+        {
+            outputHTML += "<li>rtspt://stream.vrcdn.live/live/"+theDJ+"</li>";
+        }
+
+        timeCodeList.fadeOut("fast", function()
+        {
+            timeCodeList.html(outputHTML).fadeIn("fast");
+        });
+		
+		if(warnNotInDB){
+			$("#disclaimer").show();
+		}else{
+			$("#disclaimer").hide();
+		}
+
+        $("#copy-to-clipboard-button").show();
+
+      
+	}
+	
+	  $(document).ready(function()
+    {
+        $("#copy-to-clipboard-button").click(function()
+        {
+            var outputHTML = "";
+			var spacer = "\n";
+            $("#link-list li").each(function()
+            {
+                outputHTML += $(this).text() + spacer;
+            });
+            var tempInput = $("<textarea>");
+            $("body").append(tempInput);
+            tempInput.val(outputHTML.trim()).select();
+            document.execCommand("copy");
+            tempInput.remove();
+            $("#copy-to-clipboard-button").text("Copied!").prop("disabled", true);
+			  setTimeout(function()
+        {
+
+				$("#copy-to-clipboard-button").text("Copy to Clipboard").prop("disabled", false);
+
+
+        }, 3000);
+        });
+    });
+	
+
+    </script>
+</head>
+
+<body>
+
+  
+  <h1><span style="padding-right:45px" en="0">Lazy VRCDN</span>  <span style="float:right"></span></h1>
+<p>One day players will load their own links... until then i'm lazy and copying text from discord in vr is a pain enough to warrant this.</p>
+   
+
+      <label for="username">VRDJ Username</label>
+      <input type="text" id="username" name="username" autocomplete="off"><br>
+      <input type="button" id="my-button" value="Submit">
+   
+	<p id="disclaimer" style="display:none">Just a note, this link may not be accurate as the VRDJ could not be found in the database, please contact <a style="color:white!important" href="http://twitter.com/vr_oku">vroku#8964</a> to add it.</p>
+    <ul id="link-list"></ul>
+    <button en="20" id="copy-to-clipboard-button" style="display: none;">Copy to Clipboard</button>
+   
+
+
+   <footer>
+        Made by <a href="http://twitter.com/vr_oku">vroku</a>.
+    </footer>
+</body>
+
+</html>
