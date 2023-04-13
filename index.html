@@ -142,7 +142,6 @@
         var outputStyle = $("#myDropdown").val();
         var isFullChecked = $("#myCheckbox").is(":checked");
         var isDoorsChecked = $("#myCheckbox2").is(":checked");
-
         var outputPrepend = "";
         var outputAppend = "";
 
@@ -197,9 +196,13 @@
         $("#copy-to-clipboard-button").click(function()
         {
             var outputHTML = "";
+			var spacer = "\n";
+			var isDoubleSpaced = $("#myCheckbox3").is(":checked");
+			
+			if(isDoubleSpaced) spacer = "\n\n";
             $("#time-code-list li").each(function()
             {
-                outputHTML += $(this).text() + "\n";
+                outputHTML += $(this).text() + spacer;
             });
             var tempInput = $("<textarea>");
             $("body").append(tempInput);
@@ -231,6 +234,8 @@
             <input type="checkbox" id="myCheckbox" name="myCheckbox" /> Include event start time/date?</label>
         <label>
             <input type="checkbox" id="myCheckbox2" name="myCheckbox2" /> Include open doors time? (-15 Minutes) </label>
+			 <label>
+            <input type="checkbox" id="myCheckbox3" name="myCheckbox3" /> Double spaced timecodes? 🐌 </label>
         <label for="selecta">Slot number formatting<label>
                 <select name="selecta" id="myDropdown">
                     <option value="no-slot">No slot numbers</option>
