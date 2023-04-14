@@ -138,7 +138,8 @@
 	  'Generate Time Codes',//19
 	  'Copy to Clipboard',//20
 	  'Event date',//21
-	  'Doors open at'//22
+	  'Doors open at',//22
+	  '20 minutes'//23
 	];
 	
 	const JP_words = [
@@ -155,16 +156,17 @@
 	  '生成する時間スロットの数', //10
 	  'イベント開始時間/日付を含めますか？', //11
 	  '開場時間を含めますか？ (-15分)', //12
-	  '生成する時間スロットの改行を倍にする?', //13
+	  'スロット間の空行を開けますか？', //13
 	  'スロット番号の書式設定', //14
 	  'スロット番号なし', //15
 	  'スロット番号を先頭に付ける', //16
 	  'スロット番号を末尾に付ける', //17
 	  'スロット番号をハイフン付きで末尾に付ける', //18
-	  '時間スロットを生成する', //19
+	  'タイムコードを生成する', //19
 	  'クリップボードにコピー', //20
 	  'イベント日付', //21
-	  '開場時間' //22
+	  '開場時間', //22
+	  '20分' //23
 	];
 	
     $(function()
@@ -350,6 +352,7 @@
         <label en="3" for="time-increment">Set length</label>
         <select id="time-increment" name="time-increment">
 			<option en="4" value="15">15 minutes</option>
+			<option en="23" value="20">20 minutes</option>
             <option en="5" value="30">30 minutes</option>
 			<option en="6" value="45">45 minutes</option>
             <option en="7" value="60" selected>1 hour</option>
@@ -376,7 +379,7 @@
     <ul id="time-code-list"></ul>
     <button en="20" id="copy-to-clipboard-button" style="display: none;">Copy to Clipboard</button>
     <footer>
-        Made by <a href="http://chat.openai.com">ChatGPT</a> and <a href="http://twitter.com/vr_oku">vroku</a>, translation help by <a href="https://twitter.com/kohada_tw">こはだ Kohada</a>.
+        Made by <a href="http://chat.openai.com">ChatGPT</a> and <a href="http://twitter.com/vr_oku">vroku</a>, translation by <a href="https://twitter.com/kohada_tw">kohada</a> and <a href="https://twitter.com/toyz_play">TOYZPLAY</a>.
     </footer>
 </body>
 
