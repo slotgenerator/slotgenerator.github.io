@@ -139,7 +139,8 @@
 	  'Copy to Clipboard',//20
 	  'Event date',//21
 	  'Doors open at',//22
-	  '20 minutes'//23
+	  '20 minutes',//23
+	  'Use full dates?'
 	];
 	
 	const JP_words = [
@@ -166,7 +167,8 @@
 	  'クリップボードにコピー', //20
 	  'イベント日付', //21
 	  '開場時間', //22
-	  '20分' //23
+	  '20分', //23
+	  '完全な日付を使用しますか？' //24
 	];
 	
     $(function()
@@ -242,12 +244,19 @@
         var outputStyle = $("#myDropdown").val();
         var isFullChecked = $("#myCheckbox").is(":checked");
         var isDoorsChecked = $("#myCheckbox2").is(":checked");
+		var useFullDates = $("#myCheckbox4").is(":checked");
         var outputPrepend = "";
         var outputAppend = "";
 
 
 
         var outputHTML = "";
+		
+		var timeCodeCode = "t";
+		
+		if(useFullDates){
+			timeCodeCode = "f";
+		}
 
         if(isFullChecked)
         {
@@ -282,7 +291,7 @@
             {
                 outputAppend = " - " + (i + 1);
             }
-            outputHTML += "<li>" + outputPrepend + "&lt;t:" + newTimeCode + ":t&gt;" + outputAppend + "</li>";
+            outputHTML += "<li>" + outputPrepend + "&lt;t:" + newTimeCode + ":"+timeCodeCode+"&gt;" + outputAppend + "</li>";
         }
 
         timeCodeList.fadeOut("fast", function()
@@ -365,8 +374,10 @@
             <input type="checkbox" id="myCheckbox" name="myCheckbox" /> <span en="11">Include event start time/date?</span></label>
         <label>
             <input type="checkbox" id="myCheckbox2" name="myCheckbox2" /> <span en="12">Include open doors time? (-15 Minutes)</span></label>
-			 <label>
+		<label>
             <input type="checkbox" id="myCheckbox3" name="myCheckbox3" /> <span en="13">Double spaced timecodes?</span></label>
+		<label>
+            <input type="checkbox" id="myCheckbox4" name="myCheckbox4" /> <span en="14">Use full dates?</span></label>
         <label en="14" for="selecta">Slot number formatting</label>
                 <select name="selecta" id="myDropdown">
                     <option en="15" value="no-slot">No slot numbers</option>
