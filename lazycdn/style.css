@@ -1,0 +1,114 @@
+body {
+  background-color: #2f3136;
+  color: #b9bbbe;
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-control {
+  background-color: #40444b;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  color: #ffffff;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.card {
+  background-color: #40444b;
+  border: none;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+
+.dj-name {
+  font-size: 20px;
+  font-weight: bold;
+  margin-right: 10px;
+  align-items: center;
+}
+
+.dj-url {
+  font-size: 12px;
+  opacity: 0.6;
+  font-family: monospace;
+  margin-left: 10px;
+  position: relative;
+  top: -3px;
+}
+
+@media (max-width: 576px) {
+  .dj-name {
+    font-size: 16px;
+    margin-right: 5px;
+  }
+  .dj-url {
+    font-size: 10px;
+    margin-left: 5px;
+    top: -2px;
+  }
+}
+
+.copy-button {
+  background-color: #7289da;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px;
+  cursor: pointer;
+  margin-top: 15px;
+  margin-left: 10px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.copy-button:hover {
+  background-color: #5a68a7;
+}
+
+.copy-button:focus {
+  outline: none;
+}
+
+.alert {
+  display: none;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.alert.success {
+  background-color: #43b581;
+  color: #ffffff;
+}
+
+.alert.show {
+  display: block;
+  text-align: center;
+  margin: 0 auto;
+  width: fit-content;
+}
