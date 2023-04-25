@@ -112,3 +112,14 @@ body {
   margin: 0 auto;
   width: fit-content;
 }
+
+footer
+{
+	margin-top: 32px;
+	text-align: center;
+}
+
+footer a
+{
+	color: #fff;
+}
