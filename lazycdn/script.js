@@ -2,6 +2,7 @@ axios.get('djs_public.json')
   .then(function(response) {
     // Define the DJ names and their corresponding URLs
     const djs = response.data;
+	displayRandomQuote();
 
 	// Define a function that returns an array of fuzzy search results
 	function fuzzySearch(query) {
@@ -72,7 +73,6 @@ axios.get('djs_public.json')
 		});
     });
   });
-displayRandomQuote();
   .catch(function(error) {
     console.error('Error loading DJ data:', error);
   });
