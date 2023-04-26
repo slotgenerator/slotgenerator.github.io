@@ -72,7 +72,7 @@ axios.get('djs_public.json')
 		  searchResultsDiv.append(cardDiv);
 		});
     });
-  });
+  })
   .catch(function(error) {
     console.error('Error loading DJ data:', error);
   });
