@@ -227,7 +227,7 @@ fetch('djs_public.json')
 
     function displayRandomQuote() {
         const randomIndex = Math.floor(Math.random() * quotes.length);
-        $('#quote').text(quotes[randomIndex]);
+         document.getElementById('quote').innerHTML = quotes[randomIndex];
     }
 
 function randomizeQuote() {
