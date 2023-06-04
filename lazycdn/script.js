@@ -1,81 +1,101 @@
-axios.get('djs_public.json')
+fetch('djs_public.json')
   .then(function(response) {
+    if (!response.ok) {
+      throw new Error('Error loading DJ data');
+    }
+    return response.json();
+  })
+  .then(function(data) {
     // Define the DJ names and their corresponding URLs
-    const djs = response.data;
-	displayRandomQuote();
+    const djs = data;
+    displayRandomQuote();
 
-	// Define a function that returns an array of fuzzy search results
-	function fuzzySearch(query) {
-	  const results = [];
-	  for (const dj of djs) {
-		if (dj.name.toLowerCase().includes(query.toLowerCase())) {
-		  const urlWithPrefix = `rtspt://stream.vrcdn.live/live/${dj.url}`;
-		  results.push({ name: dj.name, url: urlWithPrefix });
-		}
-	  }
-	  if(query.length == 0){
-		  return [];
-	  }
+    // Define a function that returns an array of fuzzy search results
+    function fuzzySearch(query) {
+      const results = [];
+      for (const dj of djs) {
+        if (dj.name.toLowerCase().includes(query.toLowerCase())) {
+          const urlWithPrefix = `rtspt://stream.vrcdn.live/live/${dj.url}`;
+          results.push({ name: dj.name, url: urlWithPrefix });
+        }
+      }
+      if (query.length === 0) {
+        return [];
+      }
 
-	  return results;
-	}
-	
-	
-	$(()=>{
-		var su = false;
-		$("#signups").hide();
-		$("#signupsbtn").click(function(){
-			if(!su){
-				$("#signups").show();
-				$("#signupsbtn").val("Close signup form");
-				su= true;
-			}else{
-				$("#signups").remove();
-				$("#signupsbtn").remove();
-				su= false;
-			}
-				
-		});
-	});
+      return results;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var su = false;
+      var signups = document.getElementById('signups');
+      var signupsBtn = document.getElementById('signupsbtn');
+      signups.style.display = 'none';
+      signupsBtn.addEventListener('click', function() {
+        if (!su) {
+          signups.style.display = 'block';
+          signupsBtn.value = 'Close signup form';
+          su = true;
+        } else {
+          signups.parentNode.removeChild(signups);
+          signupsBtn.parentNode.removeChild(signupsBtn);
+          su = false;
+        }
+      });
+    });
 
     // Define a function that copies a text to the clipboard
     function copyTextToClipboard(text) {
-      const textarea = document.createElement("textarea");
+      const textarea = document.createElement('textarea');
       textarea.value = text;
       document.body.appendChild(textarea);
       textarea.select();
-      document.execCommand("copy");
+      document.execCommand('copy');
       document.body.removeChild(textarea);
     }
 
     // Handle key presses in the search input field
-    $("#dj-search-input").on("input", function() {
-      const query = $(this).val();
-      const results = fuzzySearch(query);
-      const searchResultsDiv = $("#search-results");
-      searchResultsDiv.empty();
+    var djSearchInput = document.getElementById('dj-search-input');
+    djSearchInput.addEventListener('input', function() {
+      var query = this.value;
+      var results = fuzzySearch(query);
+      var searchResultsDiv = document.getElementById('search-results');
+      searchResultsDiv.innerHTML = '';
       results.forEach(function(result) {
-		  const cardDiv = $("<div>").addClass("card");
-		  const nameSpan = $("<span>").addClass("dj-name").text(result.name);
-		  const urlSpan = $("<span>").addClass("dj-url").text(result.url);
-		  const copyButton = $("<button>").addClass("copy-button").html('<i class="fas fa-copy mr-2"></i> Copy to clipboard');
-		  const copyDiv = $("<div>").append(copyButton);
-		  const djInfoDiv = $("<div>").addClass("dj-info").append(nameSpan).append(urlSpan);
-		  cardDiv.append(djInfoDiv).append(copyDiv);
-		  copyButton.click(function() {
-			copyTextToClipboard(result.url);
-			copyButton.html('<i class="fas fa-check mr-2"></i> Copied to clipboard');
-			setTimeout(function() {
-			  copyButton.html('<i class="fas fa-copy mr-2"></i> Copy to clipboard');
-			}, 2000);
-		  });
-		  searchResultsDiv.append(cardDiv);
-		});
+        var cardDiv = document.createElement('div');
+        cardDiv.classList.add('card');
+        var nameSpan = document.createElement('span');
+        nameSpan.classList.add('dj-name');
+        nameSpan.textContent = result.name;
+        var urlSpan = document.createElement('span');
+        urlSpan.classList.add('dj-url');
+        urlSpan.textContent = result.url;
+        var copyButton = document.createElement('button');
+        copyButton.classList.add('copy-button');
+        copyButton.innerHTML = '<i class="fas fa-copy mr-2"></i> Copy to clipboard';
+        var copyDiv = document.createElement('div');
+        copyDiv.appendChild(copyButton);
+        var djInfoDiv = document.createElement('div');
+        djInfoDiv.classList.add('dj-info');
+        djInfoDiv.appendChild(nameSpan);
+        djInfoDiv.appendChild(urlSpan);
+        cardDiv.appendChild(djInfoDiv);
+        cardDiv.appendChild(copyDiv);
+        copyButton.addEventListener('click', function() {
+          copyTextToClipboard(result.url);
+          copyButton.innerHTML = '<i class="fas fa-check mr-2"></i> Copied to clipboard';
+          setTimeout(function() {
+            copyButton.innerHTML = '<i class="fas fa-copy mr-2"></i> Copy to clipboard';
+          }, 2000);
+        });
+        searchResultsDiv.appendChild(cardDiv);
+      });
     });
   })
   .catch(function(error) {
     console.error('Error loading DJ data:', error);
   });
+
 
     const quotes = [
         "The only way to do great work is to love what you do. – Steve Jobs",
